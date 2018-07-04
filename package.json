@@ -1,6 +1,6 @@
 {
   "name": "medcalc",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -37,12 +37,10 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "vue/html-end-tags": "error",
       "vue/html-indent": [
         "error",
         2
-      ],
-      "vue/html-self-closing": "error"
+      ]
     }
   },
   "postcss": {
