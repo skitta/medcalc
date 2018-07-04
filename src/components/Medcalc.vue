@@ -50,46 +50,25 @@
     <Card v-if="showResult" style="margin-top: 10px">
       <p>补液总量</p>
       <Slider v-model="totalLiquid" :min="totalLiquidRange.min" :max="totalLiquidRange.max" :step="10" show-stops show-input></Slider>
-      <Collapse style="margin-top: 30px">
-        <Panel name="1" v-if="formItem.hasExpand">
-          扩容 {{ expandLiquid }} ml
-          <div slot="content">
-            <div>10% NaCl {{ Math.round(expandLiquid * 0.06) }} ml </div>
-            <div>5% NaHCO3 {{ Math.round(expandLiquid * 0.093) }} ml </div>
-            <div>10% G.S {{ expandLiquid - Math.round(expandLiquid * 0.06) - Math.round(expandLiquid * 0.093) }} ml </div>
+      <Tabs style="margin-top: 30px">
+        <TabPane name="1" v-if="formItem.hasExpand" label="扩容">
+          <Instraction :dose="expandLiquid" tension="1" :notes="['30～60分钟内','静脉推注','或快速滴注']"></Instraction>
+        </TabPane>
+        <TabPane name="2" label="累计损失量">
+          <div v-if="formItem.pressure==='0'">
+            <Instraction :dose="accumulateLiquid" tension="1/2" :notes="['静脉滴注','8～12h','或8～10ml/kg·h']"></Instraction>
           </div>
-        </Panel>
-        <Panel name="2">
-          累计损失量 {{ totalLiquid / 2 - expandLiquid }} ml
-          <div slot="content">
-            <div v-if="formItem.pressure==='0'">
-              <!-- <p>张力 1/2</p> -->
-              <!-- <div>10% NaCl {{ Math.round((totalLiquid / 2 - expandLiquid) / 2 * 0.06) }} ml</div>
-              <div>5% NaHCO3 {{ Math.round((totalLiquid / 2 - expandLiquid) / 2 * 0.093) }} ml</div>
-              <div>10% G.S {{ totalLiquid / 2 - expandLiquid - Math.round((totalLiquid / 2 - expandLiquid) / 2 * 0.06) - Math.round((totalLiquid / 2 - expandLiquid) / 2 * 0.093) }} ml</div> -->
-              <Instraction :dose="accumulateLiquid" :tension="'1/2'"/>
-            </div>
-            <div v-if="formItem.pressure==='1'">
-              <div>10% NaCl {{ Math.round((totalLiquid / 2 - expandLiquid) / 3 * 2 * 0.06) }} ml</div>
-              <div>5% NaHCO3 {{ Math.round((totalLiquid / 2 - expandLiquid) / 3 * 2 * 0.093) }} ml</div>
-              <div>10% G.S {{ totalLiquid / 2 - expandLiquid - Math.round((totalLiquid / 2 - expandLiquid) / 3 * 2 * 0.06) - Math.round((totalLiquid / 2 - expandLiquid) / 3 * 2 * 0.093) }} ml</div>
-            </div>
-            <div v-if="formItem.pressure==='2'">
-              <div>10% NaCl {{ Math.round((totalLiquid / 2 - expandLiquid) / 3 * 0.06) }} ml</div>
-              <div>5% NaHCO3 {{ Math.round((totalLiquid / 2 - expandLiquid) / 3 * 0.093) }} ml</div>
-              <div>10% G.S {{ totalLiquid / 2 - expandLiquid - Math.round((totalLiquid / 2 - expandLiquid) / 3 * 0.06) - Math.round((totalLiquid / 2 - expandLiquid) / 3 * 0.093) }} ml</div>
-            </div>
+          <div v-if="formItem.pressure==='1'">
+            <Instraction :dose="accumulateLiquid" tension="2/3" :notes="['静脉滴注','8～12h','或8～10ml/kg·h']"></Instraction>
           </div>
-        </Panel>
-        <Panel name="3">
-          继续损失量及生理需要量 {{ totalLiquid / 2 }} ml
-          <div slot="content">
-            <div>10% NaCl {{ Math.round((totalLiquid / 2) / 2 * 0.06) }} ml</div>
-            <div>5% NaHCO3 {{ Math.round((totalLiquid / 2) / 2 * 0.093) }} ml</div>
-            <div>10% G.S {{ totalLiquid / 2 - Math.round((totalLiquid / 2) / 2 * 0.06) - Math.round((totalLiquid / 2) / 2 * 0.093) }} ml</div>
-          </div>
-        </Panel>
-      </Collapse>
+          <div v-if="formItem.pressure==='2'">
+            <Instraction :dose="accumulateLiquid" tension="1/3" :notes="['静脉滴注','8～12h','或8～10ml/kg·h']"></Instraction>
+            </div>
+        </TabPane>
+        <TabPane name="3" label="继续损失量及生理需要量">
+          <Instraction :dose="totalLiquid / 2" tension="1/2" :notes="['静脉滴注','16～18h','或5ml/kg·h']"></Instraction>
+        </TabPane>
+      </Tabs>
     </Card>
     </transition>
   </div>
@@ -106,8 +85,8 @@ export default {
     return {
       formItem: {
         weight: 0,
-        level: '1',
-        pressure: '0',
+        level: '2',
+        pressure: '1',
         hasSoda: true,
         hasExpand: false
       },
@@ -121,8 +100,7 @@ export default {
         max: 10
       },
       totalLiquid: 0,
-      expandLiquid: 0,
-      accumulateLiquid: () => { return totalLiquid / 2 - expandLiquid },
+      expandLiquid: 0, 
       showResult: false
     }
   },
@@ -166,6 +144,11 @@ export default {
     handleChange(event){
       this.showResult = false
     }
+  },
+  computed: {
+    accumulateLiquid: function() {
+      return this.totalLiquid / 2 - this.expandLiquid
+      }
   }
 }
 </script>
