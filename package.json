@@ -1,7 +1,9 @@
 {
   "name": "medcalc",
-  "version": "0.1.7",
-  "private": true,
+  "version": "0.1.8",
+  "author": "skitta <skitta@live.cn>",
+  "description": "An medical calculator",
+  "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -53,5 +55,15 @@
     "last 2 versions",
     "not ie <= 8"
   ],
-  "main": "dist_electron/bundled/background.js"
+  "main": "dist_electron/bundled/background.js",
+  "build": {
+    "productName": "Medcalc",
+    "appId": "com.skitta",
+    "directories": {
+      "output": "build"
+    },
+    "files": [
+      "dist_electron/**/*"
+    ]
+  }
 }
