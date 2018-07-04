@@ -25,7 +25,6 @@ export default {
 }
 </script>
 
-
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -37,16 +36,17 @@ export default {
 
 .router-view {
   position: absolute;
+  width: 100%;
   transition: all .8s cubic-bezier(.55, 0, .1, 1);
 }
 
 .slide-left-enter, .slide-right-leave-active {
   opacity: 0;
-  transform: translate(100%, 0);
+  transform: translateX(50px);
 }
 
 .slide-left-leave-active, .slide-right-enter {
   opacity: 0;
-  transform: translate(-100%, 0);
+  transform: translateX(-50px);
 }
 </style>
