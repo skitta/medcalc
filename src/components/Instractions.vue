@@ -20,12 +20,17 @@
 </template>
 
 <script>
+import {Card, Tag} from 'iview'
+
 export default {
   name: "Instraction",
+  components: {
+    Card,
+    Tag
+  },
   data() {
     return {};
   },
-  // props: ['tension', 'dose', 'notes'],
   props:{
     tension: String,
     dose: Number,
@@ -82,7 +87,7 @@ export default {
   width: 20px;
   margin-left: 10px;
   margin-right: 10px;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><line x1="100%" y1="0" x2="0" y2="100%" stroke="#495060" stroke-width="1"/></svg>');
+  background-image: url('../assets/slash.svg')
 }
 
 /* .notes {

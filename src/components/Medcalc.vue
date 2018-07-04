@@ -76,17 +76,33 @@
 
 <script>
 import Instraction from './Instractions.vue'
+import {Card, Form, FormItem, Input, Select, Option, Switch, Button, Slider, Tabs, TabPane, Row, Col, Message} from 'iview'
+
 export default {
   name: 'Medcalc',
   components: {
-    Instraction
+    Instraction,
+    Card,
+    Form,
+    FormItem,
+    Input,
+    Select,
+    Option,
+    'i-switch': Switch,
+    Button,
+    Slider,
+    Tabs,
+    TabPane,
+    Row,
+    Col,
+    Message
   },
   data () {
     return {
       formItem: {
         weight: 0,
         level: '2',
-        pressure: '1',
+        pressure: '0',
         hasSoda: true,
         hasExpand: false
       },
