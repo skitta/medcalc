@@ -1,19 +1,30 @@
 <template>
   <div id="app">
-    <Medcalc/>
+    <transition :name="transitionName">
+      <router-view class="router-view"/>
+    </transition>
   </div>
 </template>
 
 <script>
-import Medcalc from './components/Medcalc.vue'
-
 export default {
-  name: 'app',
-  components: {
-    Medcalc
+  data () {
+    return {
+      transitionName: ''
+    }
+  },
+  watch: {
+    $route(to, from) {
+      if(to.meta.index > from.meta.index) {
+        this.transitionName = 'slide-left'
+      } else {
+        this.transitionName = 'slide-right'
+      }
+    }
   }
 }
 </script>
+
 
 <style>
 #app {
@@ -22,6 +33,20 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+.router-view {
+  position: absolute;
+  transition: all .8s cubic-bezier(.55, 0, .1, 1);
+}
+
+.slide-left-enter, .slide-right-leave-active {
+  opacity: 0;
+  transform: translate(100%, 0);
+}
+
+.slide-left-leave-active, .slide-right-enter {
+  opacity: 0;
+  transform: translate(-100%, 0);
 }
 </style>
